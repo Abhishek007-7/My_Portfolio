@@ -151,7 +151,7 @@ export function Logo({ className = 'size-8' }: { className?: string }) {
       <rect width="64" height="64" rx="15" fill="url(#logo-t)" />
       <rect width="64" height="64" rx="15" fill="url(#logo-h)" />
       <rect x="0.75" y="0.75" width="62.5" height="62.5" rx="14.25" fill="none" stroke="#fff" strokeOpacity="0.18" strokeWidth="1.5" />
-      <path fill="#1c0d05" transform="translate(11.85 36.85) scale(0.1515)" d="M28.50 0L1 0L43.90-64L71.70-64L115 0L87.50 0L81.20-9.70L34.70-9.70L28.50 0M44.40-24.70L71.50-24.70L57.90-45.70 M146-64L192.90-15.40L240-64L265-64L265 0L240 0L240-32.80L208 0L178 0L146-32.60L146 0L121 0L121-64" />
+      <path fill="#1c0d05" transform="translate(8.82 40.78) scale(0.1769 0.2742)" d="M28.50 0L1 0L43.90-64L71.70-64L115 0L87.50 0L81.20-9.70L34.70-9.70L28.50 0M44.40-24.70L71.50-24.70L57.90-45.70 M142-64L188.90-15.40L236-64L261-64L261 0L236 0L236-32.80L204 0L174 0L142-32.60L142 0L117 0L117-64" />
     </svg>
   )
 }
