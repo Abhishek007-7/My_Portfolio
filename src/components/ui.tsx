@@ -133,3 +133,25 @@ export const isApple = (() => {
   return /mac|iphone|ipad|ipod/i.test(p)
 })()
 export const modKey = isApple ? '⌘' : 'Ctrl'
+
+/* ── AM monogram in Syne ExtraBold on a burnt-orange tile ── */
+export function Logo({ className = 'size-8' }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 64 64" className={className} aria-hidden>
+      <defs>
+        <linearGradient id="logo-t" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stopColor="#f08a45" />
+          <stop offset="1" stopColor="#c2481f" />
+        </linearGradient>
+        <radialGradient id="logo-h" cx="0.28" cy="0.18" r="0.9">
+          <stop offset="0" stopColor="#fff" stopOpacity="0.22" />
+          <stop offset="0.6" stopColor="#fff" stopOpacity="0" />
+        </radialGradient>
+      </defs>
+      <rect width="64" height="64" rx="15" fill="url(#logo-t)" />
+      <rect width="64" height="64" rx="15" fill="url(#logo-h)" />
+      <rect x="0.75" y="0.75" width="62.5" height="62.5" rx="14.25" fill="none" stroke="#fff" strokeOpacity="0.18" strokeWidth="1.5" />
+      <path fill="#1c0d05" transform="translate(11.85 36.85) scale(0.1515)" d="M28.50 0L1 0L43.90-64L71.70-64L115 0L87.50 0L81.20-9.70L34.70-9.70L28.50 0M44.40-24.70L71.50-24.70L57.90-45.70 M146-64L192.90-15.40L240-64L265-64L265 0L240 0L240-32.80L208 0L178 0L146-32.60L146 0L121 0L121-64" />
+    </svg>
+  )
+}

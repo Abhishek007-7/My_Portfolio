@@ -151,7 +151,7 @@ export default function About() {
               <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-accent/30 to-mint/20 text-ink"><GraduationCap className="size-6" /></span>
               <div>
                 <div className="text-xl font-medium tracking-tight">Master of Artificial Intelligence</div>
-                <div className="text-muted">RMIT University · Melbourne</div>
+                <div className="text-muted">RMIT University · Melbourne · GPA 3.7 / 4.0</div>
               </div>
             </div>
             <div className="text-sm text-muted">{profile.openTo}.</div>

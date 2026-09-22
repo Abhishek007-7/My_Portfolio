@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion, useScroll, useSpring, useMotionValueEvent } from 'motion/react'
 import { Menu, Search, X } from 'lucide-react'
-import { modKey, scrollToId } from '../components/ui'
+import { Logo, modKey, scrollToId } from '../components/ui'
 import ThemeToggle from '../components/ThemeToggle'
 
 export const NAV = [
@@ -49,9 +49,9 @@ export default function Nav({ onPalette }: { onPalette: () => void }) {
         className="fixed inset-x-0 top-4 z-40 flex justify-center px-4"
       >
         <nav className="flex w-full max-w-5xl items-center justify-between gap-2 rounded-full border border-line bg-bg/70 py-2 pr-2 pl-5 backdrop-blur-xl">
-          <button onClick={() => go('top')} className="group flex items-center gap-2 font-medium tracking-tight">
-            <span className="grid size-7 place-items-center rounded-full bg-gradient-to-br from-accent to-mint font-mono text-[11px] font-semibold text-bg transition-transform group-hover:rotate-12">AM</span>
-            <span className="hidden sm:inline">Abhishek</span>
+          <button onClick={() => go('top')} className="group flex items-center gap-2.5 font-medium tracking-tight" aria-label="Abhishek Madhu, back to top">
+            <Logo className="size-8 transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-105" />
+            <span className="hidden font-display text-[16px] font-bold tracking-[-0.01em] sm:inline">Abhishek Madhu</span>
           </button>
 
           <ul className="hidden items-center md:flex" onMouseLeave={() => setHover(null)}>

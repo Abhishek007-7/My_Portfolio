@@ -54,10 +54,11 @@ export const timeline: TimelineItem[] = [
     period: '2026 – Present',
     current: true,
     points: [
-      'Postgraduate study in machine learning, deep learning and applied AI.',
+      'ACS-accredited program in machine learning, deep learning and AI system design.',
+      'GPA 3.7 / 4.0 after the first semester.',
       'Building on my background in machine learning, computer vision and NLP.',
     ],
-    tags: ['Machine Learning', 'Deep Learning', 'Applied AI'],
+    tags: ['GPA 3.7 / 4.0', 'ACS accredited', 'Machine Learning', 'Deep Learning'],
   },
   {
     kind: 'work',

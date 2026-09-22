@@ -18,20 +18,39 @@ function apply(t: Theme) {
   listeners.forEach((l) => l())
 }
 
-/** Switch theme with a circular reveal expanding from (x, y) where supported. */
+const BG: Record<Theme, string> = { dark: '#08080c', light: '#f5f4fa' }
+let busy = false
+
+/**
+ * Switch theme with a circular wipe expanding from (x, y).
+ * Only a single circle's `transform` is animated (GPU-composited), so it stays at full frame rate
+ * instead of re-snapshotting and repainting the whole page.
+ */
 export function toggleTheme(x = innerWidth / 2, y = 0) {
   const next: Theme = read() === 'dark' ? 'light' : 'dark'
-  const doc = document as Document & { startViewTransition?: (cb: () => void) => { ready: Promise<void> } }
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches
-  if (!doc.startViewTransition || reduce) return apply(next)
+  if (busy) return
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return apply(next)
+  busy = true
+
   const r = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y))
-  const vt = doc.startViewTransition(() => apply(next))
-  vt.ready.then(() => {
-    document.documentElement.animate(
-      { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${r}px at ${x}px ${y}px)`] },
-      { duration: 650, easing: 'cubic-bezier(.76,0,.24,1)', pseudoElement: '::view-transition-new(root)' },
-    )
-  }).catch(() => {})
+  const el = document.createElement('div')
+  Object.assign(el.style, {
+    position: 'fixed', left: `${x - r}px`, top: `${y - r}px`, width: `${r * 2}px`, height: `${r * 2}px`,
+    borderRadius: '50%', background: BG[next], zIndex: '200', pointerEvents: 'none',
+    transform: 'scale(0)', willChange: 'transform, opacity',
+  })
+  document.body.appendChild(el)
+
+  const grow = el.animate([{ transform: 'scale(0)' }, { transform: 'scale(1)' }], {
+    duration: 520, easing: 'cubic-bezier(.65,0,.35,1)', fill: 'forwards',
+  })
+  grow.finished.then(() => {
+    apply(next) // page underneath switches while fully covered
+    requestAnimationFrame(() => {
+      const fade = el.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 260, easing: 'ease-out', fill: 'forwards' })
+      fade.finished.then(() => { el.remove(); busy = false })
+    })
+  })
 }
 
 export function useTheme(): Theme {
