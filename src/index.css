@@ -1,0 +1,152 @@
+@import 'tailwindcss';
+
+/* Theme tokens: dark is the default look, `.light` on <html> switches everything */
+:root {
+  --bg: #08080c;
+  --surface: #0f0f15;
+  --surface-2: #15151d;
+  --line: rgb(255 255 255 / 0.08);
+  --ink: #ededf2;
+  --fg: #ffffff;
+  --muted: #9a9aab;
+  --dim: #6b6b7b;
+  --accent: #9d8cff;
+  --mint: #5eead4;
+  --grid: rgb(255 255 255 / 0.035);
+  --grain: 0.05;
+  color-scheme: dark;
+}
+:root.light {
+  --bg: #f5f4fa;
+  --surface: #ffffff;
+  --surface-2: #eeecf6;
+  --line: rgb(24 18 48 / 0.1);
+  --ink: #15131d;
+  --fg: #15131d;
+  --muted: #595668;
+  --dim: #85819a;
+  --accent: #6450e0;
+  --mint: #0d9484;
+  --grid: rgb(24 18 48 / 0.05);
+  --grain: 0.035;
+  color-scheme: light;
+}
+
+@theme {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+  --color-ink: var(--ink);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-dim: var(--dim);
+  --color-accent: var(--accent);
+  --color-mint: var(--mint);
+  --font-sans: 'Geist', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, monospace;
+  --font-serif: 'Instrument Serif', ui-serif, Georgia, serif;
+}
+
+html {
+  background: var(--bg);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg);
+  color: var(--ink);
+  overflow-x: hidden;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+/* Circular reveal when switching theme (View Transitions API) */
+::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+
+::selection { background: var(--accent); color: var(--bg); }
+
+/* Film grain overlay */
+.grain::after {
+  content: '';
+  position: fixed;
+  inset: -50%;
+  pointer-events: none;
+  z-index: 60;
+  opacity: var(--grain);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grain 8s steps(10) infinite;
+}
+@keyframes grain {
+  0%, 100% { transform: translate(0, 0); }
+  20% { transform: translate(-3%, 2%); }
+  40% { transform: translate(2%, -3%); }
+  60% { transform: translate(-2%, 3%); }
+  80% { transform: translate(3%, -2%); }
+}
+
+.text-gradient {
+  background: linear-gradient(100deg, var(--ink) 10%, var(--accent) 55%, var(--mint) 95%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.grid-bg {
+  background-image:
+    linear-gradient(to right, var(--grid) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 75%);
+}
+
+/* Spotlight card: --x/--y set from JS */
+.spotlight { position: relative; isolation: isolate; }
+.spotlight::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.35s;
+  background: radial-gradient(420px circle at var(--x, 50%) var(--y, 50%), color-mix(in oklab, var(--accent) 12%, transparent), transparent 45%);
+}
+.spotlight:hover::before { opacity: 1; }
+.spotlight-border {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  pointer-events: none;
+  background: radial-gradient(300px circle at var(--x, 50%) var(--y, 50%), color-mix(in oklab, var(--accent) 70%, transparent), transparent 60%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.35s;
+}
+.spotlight:hover .spotlight-border { opacity: 1; }
+
+.marquee-track { animation: marquee 40s linear infinite; }
+@keyframes marquee { to { transform: translateX(-50%); } }
+
+.pulse-dot::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: inherit;
+  animation: ping 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+@keyframes ping { 75%, 100% { transform: scale(2.4); opacity: 0; } }
+
+:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; border-radius: 6px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+}
